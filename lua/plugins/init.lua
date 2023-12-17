@@ -2,6 +2,49 @@
 -- List of all default plugins & their definitions
 local default_plugins = {
 
+  {
+    "ray-x/navigator.lua",
+    dependencies = {
+      { "ray-x/guihua.lua", run = "cd lua/fzy && make" },
+      { "neovim/nvim-lspconfig" },
+    },
+  },
+  {
+    "ray-x/go.nvim",
+    dependencies = { -- optional packages
+      "ray-x/guihua.lua",
+      "neovim/nvim-lspconfig",
+      "nvim-treesitter/nvim-treesitter",
+    },
+    config = function()
+      require("go").setup()
+    end,
+    event = { "CmdlineEnter" },
+    ft = { "go", "gomod" },
+    build = ':lua require("go.install").update_all_sync()', -- if you need to install/update all binaries
+  },
+  {
+    "sbdchd/neoformat",
+    lazy = false,
+  },
+  {
+    "github/copilot.vim",
+    config = function()
+      vim.keymap.set("i", "<C-e>", [[copilot#Accept("<Right>")]], {
+        silent = true,
+        expr = true,
+        script = true,
+        replace_keycodes = false,
+      })
+      vim.g.copilot_filetypes = {
+        ["*"] = true,
+      }
+      vim.g.copilot_assume_mapped = true
+    end,
+    command = "Copilot",
+    lazy = false,
+  },
+
   "nvim-lua/plenary.nvim",
 
   -- nvchad plugins
@@ -145,10 +188,16 @@ local default_plugins = {
     "neovim/nvim-lspconfig",
     init = function()
       require("core.utils").lazy_load "nvim-lspconfig"
+      require("core.utils").load_mappings "lspconfig"
     end,
     config = function()
       require "plugins.configs.lspconfig"
     end,
+  },
+
+  {
+    "simrat39/rust-tools.nvim",
+    lazy = false,
   },
 
   -- load luasnips + cmp related in insert mode only

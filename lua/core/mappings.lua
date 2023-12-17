@@ -24,7 +24,8 @@ M.general = {
     ["<C-k>"] = { "<C-w>k", "Window up" },
 
     -- save
-    ["<C-s>"] = { "<cmd> w <CR>", "Save file" },
+    ["<leader>w"] = { "<cmd> Neoformat| w <CR>", "Save file" },
+    ["<leader>q"] = { "<cmd> q <CR>", "Quit" },
 
     -- Copy all
     ["<C-c>"] = { "<cmd> %y+ <CR>", "Copy whole file" },
@@ -191,21 +192,21 @@ M.lspconfig = {
       "LSP references",
     },
 
-    ["<leader>f"] = {
+    ["<leader>dl"] = {
       function()
         vim.diagnostic.open_float { border = "rounded" }
       end,
       "Floating diagnostic",
     },
 
-    ["[d"] = {
+    ["<leader>dn"] = {
       function()
         vim.diagnostic.goto_prev { float = { border = "rounded" } }
       end,
       "Goto prev",
     },
 
-    ["]d"] = {
+    ["<leader>dN"] = {
       function()
         vim.diagnostic.goto_next { float = { border = "rounded" } }
       end,
